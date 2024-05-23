@@ -2,35 +2,24 @@ package minesweeper
 
 import (
 	"errors"
-	"strconv"
 
 	"github.com/jrlmx/repl/internal/repl"
 )
 
 func hitCommand(r *repl.Repl, args ...string) error {
-	if len(args) < 2 {
-		return errors.New("missing x and/or y")
-	}
-
-	x, err := strconv.Atoi(args[0])
+	x, y, err := parseXYInput("x", "y", args...)
 
 	if err != nil {
-		return errors.New("invalid x")
+		return err
 	}
 
-	y, err := strconv.Atoi(args[1])
+	cfg := r.Config.(*config)
 
-	if err != nil {
-		return errors.New("invalid y")
-	}
-
-	g := r.Config.(*config).game
-
-	if g == nil || g.gamestate != playing {
+	if cfg.gameInProgress() {
 		return errors.New("no game in progress")
 	}
 
-	err = g.Hit(x, y)
+	err = cfg.game.Hit(x, y)
 
 	if err != nil {
 		return err

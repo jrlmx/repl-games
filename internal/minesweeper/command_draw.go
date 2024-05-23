@@ -7,9 +7,9 @@ import (
 )
 
 func drawCommand(r *repl.Repl, args ...string) error {
-	g := r.Config.(*config).game
+	cfg := r.Config.(*config)
 
-	if g == nil || g.gamestate != playing {
+	if cfg.gameInProgress() {
 		return errors.New("no game in progress")
 	}
 

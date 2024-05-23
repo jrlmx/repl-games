@@ -20,6 +20,10 @@ type config struct {
 	game *Game
 }
 
+func (cfg *config) gameInProgress() bool {
+	return cfg.game != nil && cfg.game.gamestate == playing
+}
+
 func StartCommand(r *repl.Repl, args ...string) error {
 	cfg := &config{
 		game: nil,
