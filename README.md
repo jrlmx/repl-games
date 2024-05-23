@@ -12,9 +12,32 @@ Todo:
 
 Ideas & Stretch Goals:
 
-- [] Build out a seperate web api and serve the games in a web application
+- [] Build out a separate web api and serve the games in a web application
 
-## 
+## Cloning the project
+
+Make sure you have git installed on your machine.
+
+Then to clone the project, run the following command(s):
+
+```bash
+git clone github.com/jrlmx/repl-games 
+```
+
+Or download the <a href="https://github.com/jrlmx/repl-games/archive/refs/heads/main.zip">zip file</a>.
+
+## Running the project
+
+To compile and run the project you'll need to have Go installed on your machine.
+
+If you don't have Go installed, you can download it from the official website: https://golang.org/
+Or I reccomend using <a href="https://webinstall.dev/">webi</a> to install it. 
+
+Then navigate to the project directory and run the following command(s):
+
+```bash
+go build -o out && ./out
+```
 
 ## Minesweeper
 
