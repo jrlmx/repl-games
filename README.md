@@ -4,6 +4,8 @@
 
 A complilation of Cli-Games written in Golang
 
+Took some inspiration from the pokedex project I completed on <a href="https://boot.dev/">Boot.Dev</a> while learning Go(still a noob btw).
+
 Todo:
 
 - [] Seperate the Cli implementation from the Minesweeper package
