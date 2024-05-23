@@ -1,5 +1,35 @@
 package repl
 
+/**
+ * This is a simple reusable REPL (Read-Eval-Print-Loop) package that can be used to create
+ * interactive command-line interfaces. It is designed to be used in a modular way, where
+ * the commands are defined in the calling package and passed to the REPL instance.
+
+ * The REPL instance is created with a prompt, a configuration object, and a map of commands.
+
+ * The configuration object is an interface{} that can be used to store any data that needs to be
+ * shared between commands. The commands are defined as a map of strings to Command structs.
+
+ * The Command struct contains the name of the command, a description, a flag to indicate if the
+ * command should run hooks before and after the action, and the action function that will be
+ * executed when the command is entered.
+
+ * The REPL instance has a Start method that will start the REPL loop and wait for user input.
+ * The input is parsed and matched to the available commands, and the corresponding action is
+ * executed. The REPL loop can be stopped by calling the stop method.
+
+ * The package also provides some built-in commands that will be automatically added to the REPL instance:
+ * - help: display all available commands
+ * - exit: exit the application
+ * - clear: clear the terminal screen
+ * - back: return to the previous menu (added if the root flag is false when creating the REPL instance)
+
+ * The package also provides a way to define before and after hooks that will be executed before and after
+ * each command action. This can be used to perform common tasks such as rendering the screen or updating
+ * the configuration object.
+
+ */
+
 import (
 	"bufio"
 	"errors"
@@ -18,13 +48,13 @@ type Command struct {
 type Repl struct {
 	running         bool
 	prompt          string
-	Config          interface{}
+	Config          any
 	commands        map[string]Command
 	runBeforeAction func(*Repl, ...string) error
 	runAfterAction  func(*Repl, ...string) error
 }
 
-func NewRepl(prompt string, config interface{}, commands map[string]Command, root bool) *Repl {
+func NewRepl(prompt string, config any, commands map[string]Command, root bool) *Repl {
 	r := Repl{
 		running:  false,
 		prompt:   prompt,
