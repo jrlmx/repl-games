@@ -18,9 +18,7 @@ Ideas & Stretch Goals:
 
 ## Cloning the project
 
-Make sure you have git installed on your machine.
-
-Then to clone the project, run the following command(s):
+Make sure you have git installed on your machine. You can clone the project by running the following command(s) in your terminal:
 
 ```bash
 git clone github.com/jrlmx/repl-games 
@@ -35,7 +33,7 @@ To compile and run the project you'll need to have Go installed on your machine.
 If you don't have Go installed, you can download it from the official website: https://golang.org/
 Or I reccomend using <a href="https://webinstall.dev/">webi</a> to install it. 
 
-Then navigate to the project directory and run the following command(s):
+Then navigate to the project directory and run the following command(s) in your terminal:
 
 ```bash
 go build -o out && ./out
