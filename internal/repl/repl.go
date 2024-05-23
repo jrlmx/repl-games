@@ -19,8 +19,8 @@ type Repl struct {
 	prompt          string
 	Config          interface{}
 	commands        map[string]Command
-	RunBeforeAction func(*Repl, ...string) error
-	RunAfterAction  func(*Repl, ...string) error
+	runBeforeAction func(*Repl, ...string) error
+	runAfterAction  func(*Repl, ...string) error
 }
 
 func NewRepl(prompt string, config interface{}, commands map[string]Command, root bool) *Repl {
@@ -29,10 +29,10 @@ func NewRepl(prompt string, config interface{}, commands map[string]Command, roo
 		prompt:   prompt,
 		Config:   config,
 		commands: commands,
-		RunBeforeAction: func(r *Repl, args ...string) error {
+		runBeforeAction: func(r *Repl, args ...string) error {
 			return nil
 		},
-		RunAfterAction: func(r *Repl, args ...string) error {
+		runAfterAction: func(r *Repl, args ...string) error {
 			return nil
 		},
 	}
@@ -49,6 +49,14 @@ func NewRepl(prompt string, config interface{}, commands map[string]Command, roo
 
 func (r *Repl) AddCommand(Name string, cmd Command) {
 	r.commands[Name] = cmd
+}
+
+func (r *Repl) SetRunBeforeAction(f func(*Repl, ...string) error) {
+	r.runBeforeAction = f
+}
+
+func (r *Repl) SetRunAfterAction(f func(*Repl, ...string) error) {
+	r.runAfterAction = f
 }
 
 func (r *Repl) stop() {
@@ -88,7 +96,7 @@ func (r *Repl) Start() error {
 			args = input[1:]
 		}
 
-		err := r.RunBeforeAction(r, args...)
+		err := r.runBeforeAction(r, args...)
 
 		if err != nil {
 			fmt.Println(err)
@@ -101,7 +109,7 @@ func (r *Repl) Start() error {
 			fmt.Println(err)
 		}
 
-		err = r.RunAfterAction(r, args...)
+		err = r.runAfterAction(r, args...)
 
 		if err != nil {
 			fmt.Println(err)

@@ -25,9 +25,9 @@ func StartCommand(r *repl.Repl, args ...string) error {
 		game: nil,
 	}
 
-	sr := repl.NewRepl(" minesweeper> ", cfg, getCommands(), true)
+	sr := repl.NewRepl(" minesweeper> ", cfg, getCommands(), false)
 
-	sr.RunAfterAction = renderHook
+	sr.SetRunAfterAction(renderHook)
 
 	sr.Start()
 
