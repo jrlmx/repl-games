@@ -27,7 +27,7 @@ func StartCommand(r *repl.Repl, args ...string) error {
 
 	sr := repl.NewRepl(" minesweeper> ", cfg, getCommands(), false)
 
-	sr.SetRunAfterAction(renderHook)
+	sr.SetRunAfterAction(renderAfterHook)
 
 	sr.Start()
 
