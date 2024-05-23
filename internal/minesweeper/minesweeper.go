@@ -33,6 +33,11 @@ func StartCommand(r *repl.Repl, args ...string) error {
 
 	sr.SetRunAfterAction(renderAfterHook)
 
+	displayLogo()
+
+	fmt.Println("Welcome to Minesweeper!")
+	fmt.Println("Type 'new <size> <mines>' to start a new game")
+
 	sr.Start()
 
 	return nil
