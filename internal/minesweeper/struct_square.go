@@ -25,7 +25,7 @@ func (s *square) flag() {
 	s.flagged = !s.flagged
 }
 
-func (s *square) IsMine() bool {
+func (s *square) IsMined() bool {
 	return s.mined
 }
 
@@ -46,7 +46,7 @@ func (s *square) getNeighbors(size int) *[]pos {
 		return s.neighbors
 	}
 
-	n := make([]pos, 3, 8)
+	n := []pos{}
 
 	for y := max(s.y-1, 0); y <= min(size-1, s.y+1); y++ {
 		for x := max(s.x-1, 0); x <= min(size-1, s.x+1); x++ {

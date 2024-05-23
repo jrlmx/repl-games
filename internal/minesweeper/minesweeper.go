@@ -25,7 +25,11 @@ func StartCommand(r *repl.Repl, args ...string) error {
 		game: nil,
 	}
 
-	repl.NewRepl(" minesweeper> ", cfg, getCommands(), true).Start()
+	sr := repl.NewRepl(" minesweeper> ", cfg, getCommands(), true)
+
+	sr.RunAfterAction = renderHook
+
+	sr.Start()
 
 	return nil
 }
@@ -37,19 +41,56 @@ func getCommands() map[string]repl.Command {
 			Description: "Start a new game",
 			Action:      newCommand,
 		},
+		"hit": {
+			Name:        "hit <x> <y>",
+			Description: "Hit a square",
+			Action:      hitCommand,
+		},
+		"flag": {
+			Name:        "flag <x> <y>",
+			Description: "Flag a square",
+			Action:      flagCommand,
+		},
+		"draw": {
+			Name:        "draw",
+			Description: "Draw the board",
+			Action:      drawCommand,
+		},
 	}
 }
 
 func render(g *Game) {
-	w := len(strconv.Itoa(g.size * g.size))
-	vdiv := strings.Repeat(" ", w) + "|"
-	hdiv := "-" + strings.Repeat("-", w) + "-" + strings.Repeat("-", g.size*3)
+	maxNumWidth := len(strconv.Itoa(g.size))
+	cols := " " + strings.Repeat(" ", maxNumWidth) + "|"
+	hdiv := strings.Repeat("-", maxNumWidth+1) + "+" + strings.Repeat("-", g.size*3)
+
+	for i := 0; i < g.size; i++ {
+		numStr := strconv.Itoa(i)
+		cols += strings.Repeat(" ", maxNumWidth-len(numStr)) + numStr + " "
+	}
+
+	board := cols + "\n" + hdiv + "\n"
 
 	for y, row := range g.minefield {
-		for x, s := range row {
-			if x == 0 {
-				fmt.Printf(" %v | ", y)
+		numWidth := len(strconv.Itoa(y))
+		ln := fmt.Sprintf(strings.Repeat(" ", maxNumWidth-numWidth)+"%d |", y)
+
+		for _, s := range row {
+			if s.IsTriggered() {
+				if s.IsMined() {
+					ln += " * "
+				} else {
+					ln += fmt.Sprintf(" %d ", s.getValue())
+				}
+			} else if s.IsFlagged() {
+				ln += " F "
+			} else {
+				ln += " _ "
 			}
 		}
+
+		board += ln + "\n"
 	}
+
+	fmt.Println(board)
 }

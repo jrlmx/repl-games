@@ -15,10 +15,12 @@ type Command struct {
 }
 
 type Repl struct {
-	running  bool
-	prompt   string
-	Config   interface{}
-	commands map[string]Command
+	running         bool
+	prompt          string
+	Config          interface{}
+	commands        map[string]Command
+	RunBeforeAction func(*Repl, ...string) error
+	RunAfterAction  func(*Repl, ...string) error
 }
 
 func NewRepl(prompt string, config interface{}, commands map[string]Command, root bool) *Repl {
@@ -27,6 +29,12 @@ func NewRepl(prompt string, config interface{}, commands map[string]Command, roo
 		prompt:   prompt,
 		Config:   config,
 		commands: commands,
+		RunBeforeAction: func(r *Repl, args ...string) error {
+			return nil
+		},
+		RunAfterAction: func(r *Repl, args ...string) error {
+			return nil
+		},
 	}
 
 	r.addHelpCommand()
@@ -80,7 +88,20 @@ func (r *Repl) Start() error {
 			args = input[1:]
 		}
 
-		err := cmd.Action(r, args...)
+		err := r.RunBeforeAction(r, args...)
+
+		if err != nil {
+			fmt.Println(err)
+			continue
+		}
+
+		err = cmd.Action(r, args...)
+
+		if err != nil {
+			fmt.Println(err)
+		}
+
+		err = r.RunAfterAction(r, args...)
 
 		if err != nil {
 			fmt.Println(err)
