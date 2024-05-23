@@ -40,6 +40,7 @@ func NewRepl(prompt string, config interface{}, commands map[string]Command, roo
 
 	r.addHelpCommand()
 	r.addExitCommand()
+	r.addClearCommand()
 
 	if !root {
 		r.addBackCommand()
@@ -97,23 +98,27 @@ func (r *Repl) Start() error {
 			args = input[1:]
 		}
 
-		err := r.runBeforeAction(r, args...)
+		if cmd.Hooks {
+			err := r.runBeforeAction(r, args...)
 
-		if err != nil {
-			fmt.Println(err)
-			continue
+			if err != nil {
+				fmt.Println(err)
+				continue
+			}
 		}
 
-		err = cmd.Action(r, args...)
+		err := cmd.Action(r, args...)
 
 		if err != nil {
 			fmt.Println(err)
 		}
 
-		err = r.runAfterAction(r, args...)
+		if cmd.Hooks {
+			err = r.runAfterAction(r, args...)
 
-		if err != nil {
-			fmt.Println(err)
+			if err != nil {
+				fmt.Println(err)
+			}
 		}
 
 		if !r.running {
@@ -160,6 +165,19 @@ func (r *Repl) addBackCommand() {
 		Description: "return to the previous menu",
 		Hooks:       false,
 		Action:      backCommand,
+	})
+}
+
+/**
+ * Add the clear command to the REPL (Added by Default)
+ * This is a built-in command that will clear the terminal screen
+ */
+func (r *Repl) addClearCommand() {
+	r.AddCommand("clear", Command{
+		Name:        "clear",
+		Description: "clear the terminal screen",
+		Hooks:       false,
+		Action:      clearCommand,
 	})
 }
 
