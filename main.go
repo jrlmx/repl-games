@@ -6,7 +6,7 @@ import (
 )
 
 func main() {
-	r := repl.NewRepl(" > ", nil, getCommands(), true)
+	r := repl.NewRepl(" main menu> ", nil, getCommands(), true)
 	err := r.Start()
 
 	if err != nil {

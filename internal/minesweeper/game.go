@@ -72,8 +72,10 @@ func (g *Game) getSquare(x, y int) (*square, error) {
 func (g *Game) explode() {
 	g.gamestate = lost
 
-	for _, row := range g.minefield {
-		for _, s := range row {
+	for y := 0; y < g.size; y++ {
+		for x := 0; x < g.size; x++ {
+			s := &g.minefield[y][x]
+
 			if s.mined {
 				s.trigger()
 			}

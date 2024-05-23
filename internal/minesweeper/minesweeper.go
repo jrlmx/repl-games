@@ -43,22 +43,32 @@ func getCommands() map[string]repl.Command {
 		"new": {
 			Name:        "new <size> <mines>",
 			Description: "Start a new game",
+			Hooks:       true,
 			Action:      newCommand,
 		},
 		"hit": {
 			Name:        "hit <x> <y>",
 			Description: "Hit a square",
+			Hooks:       true,
 			Action:      hitCommand,
 		},
 		"flag": {
 			Name:        "flag <x> <y>",
 			Description: "Flag a square",
+			Hooks:       true,
 			Action:      flagCommand,
 		},
 		"draw": {
 			Name:        "draw",
 			Description: "Draw the board",
+			Hooks:       true,
 			Action:      drawCommand,
+		},
+		"explode": {
+			Name:        "explode",
+			Description: "Explode the board",
+			Hooks:       true,
+			Action:      explodeCommand,
 		},
 	}
 }

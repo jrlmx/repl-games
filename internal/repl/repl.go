@@ -11,6 +11,7 @@ import (
 type Command struct {
 	Name        string
 	Description string
+	Hooks       bool
 	Action      func(*Repl, ...string) error
 }
 
@@ -131,6 +132,7 @@ func (r *Repl) addHelpCommand() {
 	r.AddCommand("help", Command{
 		Name:        "help",
 		Description: "display this help message",
+		Hooks:       false,
 		Action:      helpCommand,
 	})
 }
@@ -143,6 +145,7 @@ func (r *Repl) addExitCommand() {
 	r.AddCommand("exit", Command{
 		Name:        "exit",
 		Description: "exit the application",
+		Hooks:       false,
 		Action:      exitCommand,
 	})
 }
@@ -155,6 +158,7 @@ func (r *Repl) addBackCommand() {
 	r.AddCommand("back", Command{
 		Name:        "back",
 		Description: "return to the previous menu",
+		Hooks:       false,
 		Action:      backCommand,
 	})
 }

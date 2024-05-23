@@ -15,7 +15,7 @@ func hitCommand(r *repl.Repl, args ...string) error {
 
 	cfg := r.Config.(*config)
 
-	if cfg.gameInProgress() {
+	if !cfg.gameInProgress() {
 		return errors.New("no game in progress")
 	}
 
