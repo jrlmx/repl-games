@@ -8,13 +8,13 @@ Took some inspiration from the pokedex project I completed on <a href="https://b
 
 Todo:
 
-- [] Seperate the Cli implementation from the Minesweeper package
-- [] Clean up the Render function
-- [] Code more games (Battleship, Tic Tac Toe, etc...)
+- [ ] Seperate the Cli implementation from the Minesweeper package
+- [ ] Clean up the Render function
+- [ ] Code more games (Battleship, Tic Tac Toe, etc...)
 
 Ideas & Stretch Goals:
 
-- [] Build out a separate web api and serve the games in a web application
+- [ ] Build out a separate web api and serve the games in a web application
 
 ## Cloning the project
 
