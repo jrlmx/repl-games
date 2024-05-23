@@ -2,7 +2,7 @@
 
 ## Project Description
 
-A complilation of Cli-Games written in Golang
+A complilation of Cli-Games written in Golang that I've been working on. The project is a work in progress and I plan to add more games as I continue to explore Go.
 
 Took some inspiration from the pokedex project I completed on <a href="https://boot.dev/">Boot.Dev</a> while learning Go(still a noob btw).
 
