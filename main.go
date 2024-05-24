@@ -1,8 +1,11 @@
 package main
 
 import (
+	"log"
+
 	"github.com/jrlmx/repl/internal/minesweeper"
 	"github.com/jrlmx/repl/internal/repl"
+	"github.com/jrlmx/repl/internal/tictactoe"
 )
 
 func main() {
@@ -10,7 +13,7 @@ func main() {
 	err := r.Start()
 
 	if err != nil {
-		panic(err)
+		log.Fatal(err)
 	}
 }
 
@@ -20,6 +23,11 @@ func getCommands() map[string]repl.Command {
 			Name:        "minesweeper",
 			Description: "Start a new minesweeper game",
 			Action:      minesweeper.StartCommand,
+		},
+		"tictactoe": {
+			Name:        "tictactoe",
+			Description: "Start a new tictactoe game",
+			Action:      tictactoe.StartCommand,
 		},
 	}
 }

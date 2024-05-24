@@ -24,7 +24,7 @@ func (cfg *config) gameInProgress() bool {
 	return cfg.game != nil && cfg.game.gamestate == playing
 }
 
-func StartCommand(r *repl.Repl, args ...string) error {
+func StartCommand(root *repl.Repl, args ...string) error {
 	cfg := &config{
 		game: nil,
 	}
@@ -38,7 +38,11 @@ func StartCommand(r *repl.Repl, args ...string) error {
 	fmt.Println("Welcome to Minesweeper!")
 	fmt.Println("Type 'new <size> <mines>' to start a new game")
 
-	sr.Start()
+	err := sr.Start()
+
+	if err != nil {
+		return err
+	}
 
 	return nil
 }
