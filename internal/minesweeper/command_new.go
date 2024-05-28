@@ -2,10 +2,11 @@ package minesweeper
 
 import (
 	"github.com/jrlmx/repl/internal/repl"
+	"github.com/jrlmx/repl/internal/utils"
 )
 
 func newCommand(r *repl.Repl, args ...string) error {
-	size, mines, err := parseXYInput("size", "mines", args...)
+	size, mines, err := utils.ParseXYInput("size", "mines", args...)
 
 	if err != nil {
 		return err

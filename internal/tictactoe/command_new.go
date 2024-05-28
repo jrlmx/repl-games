@@ -7,7 +7,5 @@ func newCommand(r *repl.Repl, args ...string) error {
 
 	cfg.game = newGame()
 
-	render(cfg.game)
-
 	return nil
 }

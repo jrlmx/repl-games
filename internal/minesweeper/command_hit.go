@@ -4,10 +4,11 @@ import (
 	"errors"
 
 	"github.com/jrlmx/repl/internal/repl"
+	"github.com/jrlmx/repl/internal/utils"
 )
 
 func hitCommand(r *repl.Repl, args ...string) error {
-	x, y, err := parseXYInput("x", "y", args...)
+	x, y, err := utils.ParseXYInput("x", "y", args...)
 
 	if err != nil {
 		return err

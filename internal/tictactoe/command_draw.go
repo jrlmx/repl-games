@@ -1,4 +1,4 @@
-package minesweeper
+package tictactoe
 
 import (
 	"errors"
@@ -9,7 +9,7 @@ import (
 func drawCommand(r *repl.Repl, args ...string) error {
 	cfg := r.Config.(*config)
 
-	if !cfg.gameInProgress() {
+	if cfg.game == nil {
 		return errors.New("no game in progress")
 	}
 

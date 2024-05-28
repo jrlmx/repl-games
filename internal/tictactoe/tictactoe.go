@@ -2,6 +2,7 @@ package tictactoe
 
 import (
 	"fmt"
+	"math/rand"
 
 	"github.com/jrlmx/repl/internal/repl"
 )
@@ -22,9 +23,22 @@ type config struct {
 }
 
 func newGame() *game {
+	coinToss := rand.Intn(2)
+
+	var player1 player
+	var player2 player
+
+	if coinToss == 0 {
+		player1 = player{human: true, name: "X"}
+		player2 = player{human: false, name: "O"}
+	} else {
+		player1 = player{human: false, name: "X"}
+		player2 = player{human: true, name: "O"}
+	}
+
 	players := [2]player{
-		{human: true, name: "X"},
-		{human: false, name: "O"},
+		player1,
+		player2,
 	}
 
 	return &game{
@@ -38,10 +52,22 @@ func newGame() *game {
 	}
 }
 
+func (g *game) move(x int) error {
+	if g.board[x] != " " {
+		return fmt.Errorf("invalid move: cell %d is already taken", x)
+	}
+
+	g.board[x] = g.currentPlayer.name
+
+	return nil
+}
+
 func StartCommand(root *repl.Repl, args ...string) error {
 	cfg := &config{}
 
 	r := repl.NewRepl(" tictactoe> ", cfg, getCommands(), false)
+
+	r.SetRunAfterAction(renderAfterHook)
 
 	err := r.Start()
 
@@ -60,6 +86,18 @@ func getCommands() map[string]repl.Command {
 			Hooks:       true,
 			Action:      newCommand,
 		},
+		"draw": {
+			Name:        "draw",
+			Description: "Draw the board",
+			Hooks:       true,
+			Action:      drawCommand,
+		},
+		"move": {
+			Name:        "move <x> <y>",
+			Description: "Make a move on the board",
+			Hooks:       true,
+			Action:      moveCommand,
+		},
 	}
 }
 
@@ -68,7 +106,7 @@ func render(g *game) {
 
 	for i, v := range g.board {
 		if v == " " {
-			fmt.Printf(" %d ", i+1)
+			fmt.Printf(" %d ", i)
 		} else {
 			fmt.Printf(" %s ", v)
 		}
